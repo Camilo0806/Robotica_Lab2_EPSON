@@ -1,0 +1,108 @@
+Global Integer i, j
+Function main
+	Pallet 1, Origen, EjeY, EjeX, 3, 3
+	Pallet Outside, 2, Origen, Ejey, Ejex, 3, 3
+	Motor On
+	Power Low
+	
+	
+	Accel 50, 50
+	Speed 50
+	AccelS 50, 50
+	SpeedS 500
+	
+	
+	Home
+	
+	Do
+		Go Origen
+		Wait 0.5
+		Go Ejex
+		Wait 0.5
+		Go Ejey
+		Wait 0.5
+		
+		Move Origen
+		Wait 0.5
+		Move Ejex
+		Wait 0.5
+		Move Ejey
+		Wait 0.5
+		
+		Go Origen :Z(300)
+		Go Origen
+		Go Origen :Z(300)
+		Wait 0.5
+		Go Ejex :Z(300)
+		Go Ejex
+		Go Ejex :Z(300)
+		Wait 0.5
+		Go Ejey :Z(300)
+		Go Ejey
+		Go Ejey :Z(300)
+		Wait 0.5
+		
+		Call paletizado_z
+		Wait 0.5
+		Call paletizado_s
+		Wait 0.5
+		Call paletizado_externo
+		Wait 0.5
+		Home
+	Loop
+
+
+'	
+'	If Sw(9) Then
+'		Call paletizado_z
+'		On 11
+'	EndIf
+'	If Sw(10) Then
+'		Call paletizado_s
+'		On 12
+'	EndIf
+'	If Sw(11) Then
+'		Call paletizado_externo
+'		
+'	EndIf
+	
+		
+Fend
+
+
+	Function paletizado_z
+		#define estado_paletizado_z 11
+		On estado_paletizado_z
+		For i = 1 To 9
+			Go Pallet(1, i)
+		Next
+			Off estado_paletizado_z
+	Fend
+	Function paletizado_s
+		#define estado_paletizado_s 11
+		On estado_paletizado_s
+		For i = 1 To 3
+			Go Pallet(1, i)
+		Next
+			For i = 6 To 3
+				Go Pallet(1, i)
+			Next
+				For i = 7 To 9
+					Move Pallet(1, i)
+					
+				Next
+					Off estado_paletizado_s
+	Fend
+
+	Function paletizado_externo
+		#define estado_paletizado_ex 13
+		On estado_paletizado_ex
+		For i = 1 To 4
+			For j = 1 To 4
+				Go Pallet(2, i, j)
+				
+			Next
+		Next
+		Off estado_paletizado_ex
+		
+	Fend
